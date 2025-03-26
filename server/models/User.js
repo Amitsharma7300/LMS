@@ -1,20 +1,21 @@
 import mongoose from "mongoose";
 
-const userSchema=new mongoose.Schema(
-
+const userSchema = new mongoose.Schema(
     {
-        _id:{type:String, required:true},
-        name:{type:String, required:true},
-        email:{type:String, required:true},
-        imageUrl:{type:String, required:true},
-        enrolledCourses:[
+        _id: { type: String, required: true },
+        name: { type: String, required: true },
+        email: { type: String, required: true },
+        imageUrl: { type: String, required: true },
+        enrolledCourses: [
             {
-                type:mongoose.Schema.Types.ObjectId,
-                ref:'course',
-            }
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "course",
+            },
         ],
-        {timestamps:true });
+    },
+    { timestamps: true } // Correctly placed timestamps option
+);
 
-        const User=mongoose.model('User',userSchema);
+const User = mongoose.model("User", userSchema);
 
-        export default user
+export default User; // Corrected export
