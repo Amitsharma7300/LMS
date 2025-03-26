@@ -3,6 +3,10 @@ import User from "../models/User.js"; // Ensure the correct path to the User mod
 
 export const clerkWebhooks = async (req, res) => {
     try {
+        console.log("Webhook triggered");
+        console.log("Headers:", req.headers);
+        console.log("Body:", req.body);
+
         const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET);
 
         // Verify the webhook payload
@@ -11,6 +15,8 @@ export const clerkWebhooks = async (req, res) => {
             "svix-timestamp": req.headers["svix-timestamp"],
             "svix-signature": req.headers["svix-signature"],
         });
+
+        console.log("Verified Payload:", payload);
 
         const { data, type } = payload;
 
@@ -22,6 +28,7 @@ export const clerkWebhooks = async (req, res) => {
                     name: `${data.first_name} ${data.last_name}`,
                     imageUrl: data.image_url,
                 };
+                console.log("User Data to Save:", userData);
                 await User.create(userData); // Save the user data to MongoDB
                 return res.status(200).json({ success: true, message: "User created" });
             }
@@ -32,16 +39,19 @@ export const clerkWebhooks = async (req, res) => {
                     name: `${data.first_name} ${data.last_name}`,
                     imageUrl: data.image_url,
                 };
+                console.log("User Data to Update:", userData);
                 await User.findByIdAndUpdate(data.id, userData, { new: true });
                 return res.status(200).json({ success: true, message: "User updated" });
             }
 
             case "user.deleted": {
+                console.log("User ID to Delete:", data.id);
                 await User.findByIdAndDelete(data.id);
                 return res.status(200).json({ success: true, message: "User deleted" });
             }
 
             default:
+                console.log("Unhandled Event Type:", type);
                 return res.status(400).json({ success: false, message: "Unhandled event type" });
         }
     } catch (error) {
