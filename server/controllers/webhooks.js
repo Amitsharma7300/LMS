@@ -20,7 +20,7 @@ await whook.verify(JSON.stringify(req.body),{
                     imageUrl: data.image_url,
                 };
                 await User.create(userData); // Save the user data to MongoDB
-                 res.json({ success: true, message: "User created" });
+                 res.json({ });
                  break;
             }
 
@@ -32,20 +32,20 @@ await whook.verify(JSON.stringify(req.body),{
                 };
         
                 await User.findByIdAndUpdate(data.id, userData);
-                res.json({ success: true, message: "User updated" });
+                res.json({ });
                 break;
             }
 
             case "user.deleted": {
 
                 await User.findByIdAndDelete(data.id);
-                res.json({ success: true, message: "User deleted" });
+                res.json({ });
                 break;
             }
 
             default:
                 console.log("Unhandled Event Type:", type);
-                return res.status(400).json({ success: false, message: "Unhandled event type" });
+                res.json({});
         }
     } catch (error) {
     
