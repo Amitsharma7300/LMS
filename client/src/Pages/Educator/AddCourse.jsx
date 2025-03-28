@@ -80,7 +80,7 @@ const addLecture = () => {
   setLectureDetails({
   lectureTitle:'',
   lectureDuration:'',
-  lectureDuration:'',
+  lectureDetails:'',
   lectureUrl: '',
   isPreviewFree: false,
 });
