@@ -17,7 +17,8 @@ const app = express();
 
 await connectCloudinary()
 // Connect to MongoDB
-connectDB().then(() => {
+connectDB()
+  .then(() => {
   app.use(express.json());
   app.use(cors());
   app.use(clerkMiddleware())
