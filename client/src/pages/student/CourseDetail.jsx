@@ -2,7 +2,7 @@ import humanizeDuration from "humanize-duration";
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { assets } from "../../assets/assets";
-import Loading from "../../components/Student/Loading";
+import Loading from "../../components/student/Loading";
 
 import Footer from "../../components/student/Footer";
 import YouTube from "react-youtube";
@@ -14,7 +14,6 @@ const CourseDetails = () => {
 
   const [courseData, setCourseData] = useState(null);
   const [openSections, setOpenSections] = useState({});
-  // eslint-disable-next-line no-unused-vars
   const [isAlreadyEnrolled, setIsAlreadyEnrolled] = useState(false);
   const [playerData, setPlayerData] = useState(null);
 

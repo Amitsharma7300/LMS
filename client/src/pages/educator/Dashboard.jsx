@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { assets, dummyDashboardData } from "../../assets/assets";
-import Loading from "../../components/Student/Loading";
+import Loading from "../../components/student/Loading";
 import { AppContext } from "../../context/AppContext";
 
 

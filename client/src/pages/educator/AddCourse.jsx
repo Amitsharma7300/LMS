@@ -1,9 +1,14 @@
+import axios from "axios";
 import Quill from "quill";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { toast } from "react-toastify";
 import uniqid from "uniqid"; // Ensure uniqid is imported
 import { assets } from "../../assets/assets";
+import { AppContext } from "../../context/AppContext";
 
 const AddCourse = () => {
+
+  const{ backendUrl, getToken}=useContext(AppContext)
   const quillRef = useRef(null);
   const editorRef = useRef(null);
 
@@ -108,9 +113,50 @@ const AddCourse = () => {
 
   // Handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("Form submitted");
-    // Add your form submission logic here
+    try {
+      e.preventDefault();
+      if (!image) {
+        toast.error("Please upload a course thumbnail.");
+        return;
+      }
+      const CourseData = {
+        courseTitle,
+        courseDescription: quillRef.current.root.innerHTML,
+        coursePrice: Number(coursePrice),
+        courseDiscount: Number(discount),
+        courseContent: chapters,
+      };
+
+      const formData = new FormData();
+      formData.append("courseData", JSON.stringify(CourseData));
+      formData.append("courseThumbnail", image);
+
+      const token = await getToken();
+      const { data } = await axios.post(
+        `${backendUrl}/api/educator/add-course`, // Corrected route
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (data.success) {
+        toast.success("Course Added Successfully");
+        setCourseTitle("");
+        setCoursePrice(0);
+        setDiscount(0);
+        setImage(null);
+        setChapters([]);
+        quillRef.current.root.innerHTML = "";
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "An error occurred");
+    }
   };
 
   return (
