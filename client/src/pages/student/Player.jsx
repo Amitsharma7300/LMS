@@ -57,7 +57,7 @@ const Player = () => {
                     <div className="flex items-center gap-2">
                       <img
                         className={`transform transition-transform ${
-                          openSections[index] ? 'rotate-90' : ''
+                          openSections[index] ? 'rotate-180' : ''
                         }`}
                         src={assets.down_arrow_icon}
                         alt="arrow_icon"
@@ -102,7 +102,7 @@ const Player = () => {
                                   }
                                   className="text-blue-500 cursor-pointer"
                                 >
-                                  Preview
+                                  Watch
                                 </p>
                               )}
                               <p>
@@ -126,9 +126,9 @@ const Player = () => {
         </div>
       </div>
       {/* Right column */}
-      <div>
+      <div className="max-w-course-card z-10 shadow-custom-card rounded-t md:rounded-none overflow-hidden bg-white min-w-[300px] sm:min-w-[420px]">
         {playerData ? (
-          <div>
+          <div className="w-full aspect-video">
             <YouTube
               videoId={playerData.videoId}
               opts={{ playerVars: { autoplay: 1 } }}
